@@ -1,0 +1,40 @@
+.icon {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+#barra-lateral {
+    position: fixed;
+    width: 200px;
+    height: 100%;
+    background: #151719;
+    left: -200px;  
+    transition: all 500ms linear;
+}
+
+#barra-lateral.active {
+    left: 0;
+}
+
+#barra-lateral nav ul li {
+    color: rgba(230, 230, 230, .9);
+    text-align: center;
+    padding: 15px 10px;
+    list-style: none;
+    border-bottom: 1px solid rgba(100, 100, 100, .3);
+}
+#barra-lateral .icono-btn  {
+    position: absolute;
+    left: 210px;
+    top: 20px;
+    cursor: pointer;
+}
+

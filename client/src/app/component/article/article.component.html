@@ -1,0 +1,124 @@
+<app-menu> </app-menu>
+
+<h3 class="text-center" *ngIf="articleIdToUpdate; else create">
+  Update Article for Id: {{ articleIdToUpdate }}
+</h3>
+<ng-template #create>
+  
+</ng-template>
+
+<div class="container" >
+  <h3 class="text-center">Create new article</h3>
+  <form [formGroup]="articleForm" (ngSubmit)="onArticleFormSubmit()" action="/files" method="POST" enctype="multipart/form-data">
+    <table class="table-striped" style="margin: 0 auto; ">
+      <tr>
+        <td>Title</td>
+        <td>
+          <input formControlName="title" class="form-control"/>
+          <label
+            *ngIf="articleForm.get('title').invalid && processValidation"
+            [ngClass]="'error'"
+          >
+            Titulo Requerido
+          </label>
+        </td>
+      </tr>
+      <br>
+      <tr>
+        <td>Category</td>
+        <td>
+          <input formControlName="category" class="form-control"/>
+          <label *ngIf="articleForm.get('category').invalid && processValidation"
+            [ngClass]="'error'">
+            Categoria Requerida
+          </label>
+        </td>
+      </tr>
+      <br>
+       
+      <tr>
+        <td>Image</td>
+        <!-- <input type="file" formControlName="images" class="form-control"> -->
+        <input type="file" formControlName="images" class="form-control" (change)="processFile($event)">
+        <label *ngIf="articleForm.get('images').invalid && processValidation" [ngClass]="'error'">
+          Images Requerida
+        </label>
+      </tr>
+      
+      
+      <div class="btn-create">
+        <tr>
+          <td colspan="2">
+            <button class="btn btn-success btn-default" *ngIf="!articleIdToUpdate">
+              CREATE
+            </button>
+            <button class="btn btn-success btn-default" style="margin-right: 5%;" *ngIf="articleIdToUpdate">
+              UPDATE
+            </button>
+            <button class="btn btn-warning btn-default text-light"(click)="backToCreateArticle()" *ngIf="articleIdToUpdate">
+              GO BACK 
+            </button>
+          </td>
+        </tr>
+     </div>
+    </table>
+  </form>
+  <br />
+   <div class="text-center" *ngIf="statusCode; else processing">
+    <div *ngIf="statusCode === 201" [ngClass]="'success'">
+      Article added successfully.
+    </div>
+    <div *ngIf="statusCode === 409" [ngClass]="'success'">
+      Article already exists.
+    </div>
+    <div *ngIf="statusCode === 200" [ngClass]="'success'">
+      Article updated successfully.
+    </div>
+    <div *ngIf="statusCode === 204" [ngClass]="'success'">
+      Article deleted successfully.
+    </div>
+    <div *ngIf="statusCode === 500" [ngClass]="'error'">
+      Internal Server Error.
+    </div>
+  </div>
+</div>
+<ng-template #processing>
+</ng-template>
+<div class="container">
+  <h3 class="text-center">List of articles</h3>
+  <table class="table" style="margin: 0 auto;" *ngIf="allArticles">
+    <tr>
+      <th>Id</th>
+      <th>Title</th>
+      <th>Category</th>
+      <th>Images</th>
+      <th>Edit</th>
+      <th>Delete</th>
+    </tr>
+
+    <tr *ngFor="let article of allArticles">
+      <td>{{ article.id }}</td>
+      <td>{{ article.title }}</td>
+      <td>{{ article.category }}</td>
+      <td>
+        <img [src]="article.images" width="100px">
+      </td>
+
+      <td>
+        <button class="btn btn-success btn-default" type="button" (click)="loadArticleToEdit(article.id)">
+          Edit
+        </button>
+      </td>
+      <td>
+        <button class="btn btn-danger btn-default" type="button" (click)="deleteArticle(article.id)">
+          Delete
+        </button>
+      </td>
+      <td>
+        <div class= "imgThumbnail">
+          
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>

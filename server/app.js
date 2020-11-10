@@ -9,15 +9,13 @@ cors = require('cors'),
 http = require('http'),
 path = require('path');
 util = require('./Utilities/util');
-
-const { database } = require('./keys');
-const Article = require('./Models/article.model');
 const app = express();
 require('./passport');
 
-// app.use(function(err, req, res, next) {
-//     return res.send({ "statusCode": util.statusCode.ONE, "statusMessage": util.statusMessage.SOMETHING_WENT_WRONG });
-//     });
+app.use(function(err, req, res, next) {
+    return res.send({ "statusCode": util.statusCode.ONE, "statusMessage": util.statusMessage.SOMETHING_WENT_WRONG });
+    });
+
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS");
@@ -61,9 +59,9 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/src/index.html'));
     }); 
 
-app.get('/images', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/src/assets/images'));
-});
+// app.get('/images', (req, res) => {
+//     res.sendFile(path.join(__dirname, '../client/src/assets/images'));
+// });
 
 var server = app.listen(process.env.PORT || 3200, function() {
     var port = server.address().port;

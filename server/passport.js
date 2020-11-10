@@ -22,14 +22,5 @@ passport.use('local.login', new LocalStrategy({
      } else {
          return done(null, false, req.flash('The Username does not exists')); //3h:06m
      }
-
-    const newUser = {
-        username,
-        password,
-    };
-    newUser.password = await helpers.encryptPassword(password);
-    console.log(newUser);
+    password = await helpers.encryptPassword(password);
 }));
-
-// module.exports = initialize;
-
